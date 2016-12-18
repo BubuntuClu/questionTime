@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer= @question.answers.new(answer_params)
+    @answer = @question.answers.new(answer_params)
     if @answer.save
       redirect_to @question
     else
@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer= @question.answers.find(params[:id])
+    @answer = @question.answers.find(params[:id])
     @answer.destroy
     redirect_to @question
   end
