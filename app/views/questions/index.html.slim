@@ -1,6 +1,6 @@
 p= link_to 'Ask question', new_question_path
 
 -@questions.each do |q|
-  h2.title
+  h2.title_question
     =q.title
-  p =q.body
+    =link_to 'View question', question_path(q)
