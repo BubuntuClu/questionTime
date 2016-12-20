@@ -2,10 +2,14 @@ h2#title_question
   =@question.title
   =@question.body
 
-  -@question.answers.each_with_index do |answer,i|
-    div.answer_body
-      = "#{answer.body}"
-    br
+  -if @question.answers.any?
+    -@question.answers.each_with_index do |answer,i|
+      div.answer_body
+        = "#{answer.body}"
+        - if current_user && current_user.author_of?(answer)
+          br
+          =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }
+      br
 
 br
  =form_for [@question, @question.answers.build] do |f|

@@ -25,4 +25,20 @@ feature 'User sign in', %q{
     expect(current_path).to eq new_user_session_path
   end
 
+  scenario 'Authenticated user try to sign out' do
+    sign_in(user)
+    click_on 'Sign out'
+    expect(page).to have_content 'Signed out successfully.'
+  end
+
+  scenario 'User try to sign up' do
+    visit new_user_session_path
+    click_on 'Sign up'
+    fill_in 'Email', with: 'test@test.com'
+    fill_in 'Password', with: '123456'
+    fill_in 'Password confirmation', with: '123456'
+    click_on 'Sign up'
+    expect(page).to have_content 'Welcome! You have signed up successfully.'
+  end
+
 end
