@@ -1,6 +1,11 @@
 FactoryGirl.define do
+
+  sequence :title do |n|
+    "This is test label#{n}"
+  end
+
   factory :question do
-    title "MyString10"
+    title
     body "This is long body text"
     user
   end
