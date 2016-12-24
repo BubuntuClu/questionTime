@@ -1,9 +1,12 @@
 p= link_to 'Ask question', new_question_path
 
--@questions.each do |q|
-  h2.title_question
-    =q.title
-    =link_to 'View question', question_path(q)
-    -if current_user && current_user.author_of?(q)
-      =link_to 'Delete question', q, method: :delete, data: { confirm: ' Are you sure?' }
-br
+.questions
+  -@questions.each do |q|
+    h2.title_question
+      =q.title
+      br
+      =link_to 'View question', question_path(q)
+      br
+      -if current_user && current_user.author_of?(q)
+        =link_to 'Delete question', q, method: :delete, data: { confirm: ' Are you sure?' }
+  br
