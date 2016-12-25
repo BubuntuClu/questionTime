@@ -14,7 +14,7 @@ feature 'Create answer', %q{
     give_an_answer
 
     expect(current_path).to eq question_path(question)
-    save_and_open_page
+    
     within '.answers' do
       expect(page).to have_content 'Test answer text'  
     end
@@ -25,7 +25,7 @@ feature 'Create answer', %q{
     visit question_path(question)
     title = question.title
     give_an_invalid_answer
-    expect(page).to have_content 'Not valid data.'
+    expect(page).to_not have_content '123'
   end
 
   scenario 'Non-authenticated user try to creates qiestion' do
