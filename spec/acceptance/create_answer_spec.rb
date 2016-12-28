@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create answer', %q{
   In order to give an answer
@@ -26,6 +26,7 @@ feature 'Create answer', %q{
     title = question.title
     give_an_invalid_answer
     expect(page).to_not have_content '123'
+    expect(page).to have_content "Body is too short (minimum is 10 characters)"
   end
 
   scenario 'Non-authenticated user try to creates qiestion' do
