@@ -24,7 +24,6 @@ feature 'View questions', %q{
     expect(page).to have_content question.body
     expect(page).to have_content answers[0].body
     expect(page).to have_content answers[1].body
-        save_and_open_page
   end
 
 end
