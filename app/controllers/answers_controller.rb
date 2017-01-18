@@ -22,6 +22,11 @@ class AnswersController < ApplicationController
     redirect_to @answer.question
   end
 
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answer_params)
+  end
+
   private
 
   def answer_params

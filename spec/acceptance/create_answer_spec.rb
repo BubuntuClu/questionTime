@@ -6,13 +6,13 @@ feature 'Create answer', %q{
   I want to be able to write an asnwer
 } do
   given(:user) { create(:user) }
-  given (:question) { create(:question) }
+  given!(:question) { create(:question) }
+
   scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
     visit question_path(question)
     title = question.title
     give_an_answer
-
     expect(current_path).to eq question_path(question)
     
     within '.answers' do

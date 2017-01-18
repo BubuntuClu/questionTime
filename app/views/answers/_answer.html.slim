@@ -2,5 +2,12 @@ div.answer_body
   = answer.body
   - if current_user && current_user.author_of?(answer)
     br
+    =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    br
     =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }
-br
+    br
+      p
+        = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
+          = f.label :body, "Answer"
+          = f.text_area :body
+          = f.submit 'Save'
