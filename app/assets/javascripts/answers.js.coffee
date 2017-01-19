@@ -2,9 +2,13 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-  $('body').on 'click','.edit-answer-link', '', (e) ->
+edit_answer = ->
+  $('.edit-answer-link').click (e) ->
     e.preventDefault();
     $(this).hide();
     answer_id = $(this).data('answerId')
-    $('form#edit-answer-' + answer_id).show();
+    $('form#edit-answer-' + answer_id).show()
+
+$(document).ready(edit_answer)
+$(document).on('page:load', edit_answer)
+$(document).on('page:update', edit_answer)

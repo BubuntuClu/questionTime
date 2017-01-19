@@ -8,6 +8,6 @@ div.answer_body
     br
       p
         = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
-          = f.label :body, "Answer"
+          = f.label :body, "Edit answer"
           = f.text_area :body
           = f.submit 'Save'
