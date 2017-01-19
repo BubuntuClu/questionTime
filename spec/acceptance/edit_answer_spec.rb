@@ -28,7 +28,6 @@ feature 'Answer editing', %q{
     end
 
     scenario 'tryes to edit his answer', js: true do
-      # TODO do this spec
       click_on 'Edit'
       within '.answers' do
         within '.answer_body' do

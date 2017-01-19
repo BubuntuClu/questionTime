@@ -6,6 +6,11 @@ div.answer_body
     br
     =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }, remote: true
     br
+    - if answer.best
+      p IT IS THE BEST ANSWER!
+    -else
+      =link_to 'Mark as best', mark_best_answers_path(a_id: answer, q_id: answer.question), class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
+    br
       p
         = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
           = f.label :body, "Edit answer"
