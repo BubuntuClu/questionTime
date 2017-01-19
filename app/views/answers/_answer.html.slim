@@ -4,7 +4,7 @@ div.answer_body
     br
     =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     br
-    =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }
+    =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }, remote: true
     br
       p
         = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
