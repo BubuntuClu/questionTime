@@ -22,10 +22,6 @@ feature 'Best answer', %q{
         visit question_path(question)
       end
 
-      scenario 'sees a Best answer link' do
-        expect(page).to have_link 'Mark as best'
-      end
-
       scenario 'choose a best answer', js: true do
         click_on 'Mark as best'
         expect(page).to_not have_link 'Mark as best'

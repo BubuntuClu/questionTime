@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :answers do
-    collection do
-      get :mark_best
-    end
-  end
+  resources :answers 
   resources :questions do
-    resources :answers
+    resources :answers do
+      member do
+        get :mark_best
+      end
+    end
   end
 
   root to: "questions#index"

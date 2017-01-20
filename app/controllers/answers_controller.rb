@@ -22,15 +22,9 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
-    @question = Question.find(params[:q_id])
-    old_best = @question.answers.find_by(best: true)
-    unless old_best.blank?
-      old_best.best = false
-      old_best.save
-    end
-    @answer = Answer.find(params[:a_id])
-    @answer.best = true
-    @answer.save
+    @question = Question.find(params[:question_id])
+    @answer = Answer.find(params[:id])
+    Answer.set_best_answer(@question, @answer)
   end
 
   private
