@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
   def set_best_answer
     ActiveRecord::Base.transaction do
       old_best = self.question.answers.find_by(best: true)
-      old_best.update!(best: false) unless old_best.blank?
+      old_best.update!(best: false) if old_best
       self.update!(best: true)
     end
   end
