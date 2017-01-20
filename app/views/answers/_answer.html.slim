@@ -9,7 +9,7 @@ div.answer_body
     - if answer.best
       p IT IS THE BEST ANSWER!
     -else
-      =link_to 'Mark as best', mark_best_question_answer_path(answer.question, answer), class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
+      =link_to 'Mark as best', mark_best_answer_path(answer), method: :post, class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
     br
       p
         = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|

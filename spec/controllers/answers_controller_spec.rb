@@ -18,10 +18,10 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'Get #mark_best' do
+  describe 'POST #mark_best' do
     it 'mark an answer as a best' do
-      xhr :get, :mark_best, params: { q_id: question, a_id: answer }, format: :js
-      expect(assigns(:answer).best).to eq(true)
+      post :mark_best, params: { id: answer, format: :js }
+      expect(assigns(:answer)).to be_best
     end
   end
 

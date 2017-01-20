@@ -7,11 +7,11 @@ class Answer < ApplicationRecord
   validates :body, presence: true, length: { minimum: 10 }
 
 
-  def self.set_best_answer(question, answer)
+  def set_best_answer
     ActiveRecord::Base.transaction do
-      old_best = question.answers.find_by(best: true)
-      old_best.update_attribute(:best, false) unless old_best.blank?
-      answer.update_attribute(:best, true)
+      old_best = self.question.answers.find_by(best: true)
+      old_best.update!(best: false) unless old_best.blank?
+      self.update!(best: true)
     end
   end
 end

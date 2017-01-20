@@ -22,9 +22,9 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
-    @question = Question.find(params[:question_id])
     @answer = Answer.find(params[:id])
-    Answer.set_best_answer(@question, @answer)
+    @question = @answer.question
+    @answer.set_best_answer
   end
 
   private

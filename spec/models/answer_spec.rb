@@ -4,6 +4,7 @@ RSpec.describe Answer, type: :model do
 
   describe 'associations' do
     it { should belong_to(:question) }
+    it { should belong_to(:user) }
   end
 
   describe 'validations' do
@@ -12,29 +13,28 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'best answer' do
-    before { @user = create(:user) }
-    let!(:question) { create(:question, user: @user) }
-    let(:answer) { create(:answer, question: question, user: @user) }
+    let!(:question) { create(:question) }
+    let(:answer) { create(:answer, question: question) }
 
     it 'set asnwer as a best' do
-      Answer.set_best_answer(question, answer)
-      expect(answer.reload.best).to eq(true)
+      answer.set_best_answer
+      expect(answer.reload).to be_best
     end
 
     it 'set another asnwer as a best' do
-      Answer.set_best_answer(question, answer)
-      answer2 = create(:answer, question: question, user: @user)
-      Answer.set_best_answer(question, answer2)
-      expect(answer.reload.best).to eq(false)
-      expect(answer2.reload.best).to eq(true)
+      answer.set_best_answer
+      answer2 = create(:answer, question: question)
+      answer2.set_best_answer
+      expect(answer.reload).to_not be_best
+      expect(answer2.reload).to be_best
     end
 
     it 'check that question got only 1 best answer' do
-      answer2 = create(:answer, question: question, user: @user)
-      answer3 = create(:answer, question: question, user: @user)
-      Answer.set_best_answer(question, answer)
-      Answer.set_best_answer(question, answer2)
-      Answer.set_best_answer(question, answer3)
+      answer2 = create(:answer, question: question)
+      answer3 = create(:answer, question: question)
+      answer.set_best_answer
+      answer2.set_best_answer
+      answer3.set_best_answer
       expect(question.answers.where(best: true).count).to eq(1)
     end
 

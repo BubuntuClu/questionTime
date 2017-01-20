@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :answers 
   resources :questions do
-    resources :answers do
+    resources :answers, shallow: true do
       member do
-        get :mark_best
+        post :mark_best
       end
     end
   end

@@ -4,9 +4,9 @@ br
 .answers
   = render @question.answers.ordered
 
-  =form_for [@question, @answer], remote: true do |f|
-    =f.label :body
-    .answers-errors
-    =f.text_area :body
-    br
-    =f.submit 'Give an answer'
+=form_for [@question, @answer], remote: true do |f|
+  =f.label :body
+  .answers-errors
+  =f.text_area :body
+  br
+  =f.submit 'Give an answer'
