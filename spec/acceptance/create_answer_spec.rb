@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create answer', %q{
   In order to give an answer
@@ -6,13 +6,13 @@ feature 'Create answer', %q{
   I want to be able to write an asnwer
 } do
   given(:user) { create(:user) }
-  given (:question) { create(:question) }
+  given!(:question) { create(:question) }
+
   scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
     visit question_path(question)
     title = question.title
     give_an_answer
-
     expect(current_path).to eq question_path(question)
     
     within '.answers' do
@@ -26,6 +26,7 @@ feature 'Create answer', %q{
     title = question.title
     give_an_invalid_answer
     expect(page).to_not have_content '123'
+    expect(page).to have_content "Body is too short (minimum is 10 characters)"
   end
 
   scenario 'Non-authenticated user try to creates qiestion' do
