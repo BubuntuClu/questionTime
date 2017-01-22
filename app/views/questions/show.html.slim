@@ -9,4 +9,8 @@ br
   .answers-errors
   =f.text_area :body
   br
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
+  br
   =f.submit 'Give an answer'
