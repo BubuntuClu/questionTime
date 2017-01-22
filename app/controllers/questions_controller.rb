@@ -13,13 +13,14 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def edit
   end
 
   def create
-    @question = Question.create(questions_params)
+    @question = Question.new(questions_params)
     @question.user = current_user
     if @question.save
       flash[:notice] = 'Your question successfully created.'
@@ -51,7 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def questions_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 
 end
