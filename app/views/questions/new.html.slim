@@ -5,10 +5,11 @@
   = f.label :body
   = f.text_area :body
   br
-  p Attachments:
-  p
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
-
+  .attachments
+    p Attachments:
+    br  
+    = f.simple_fields_for :attachments do |attach|
+      = render 'attachment_fields', f: attach
+      .links
+        = link_to_add_association 'Add file', f, :attachments
   = f.submit 'Create'

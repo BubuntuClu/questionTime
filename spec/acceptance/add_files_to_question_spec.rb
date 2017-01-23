@@ -22,4 +22,21 @@ feature 'add files to question', %q{
     expect(page).to have_content 'Test question'
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
   end
+
+  scenario 'user adds a few files when asks question', js: true do
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'Text testx question'
+    click_on 'Add file'
+    within page.all('.nested-fields')[0] do 
+      attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+    end
+
+    within page.all('.nested-fields')[1] do 
+      attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+    end
+    click_on 'Create'
+    expect(page).to have_content 'Test question'
+    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+  end
 end

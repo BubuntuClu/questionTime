@@ -9,8 +9,10 @@ br
   .answers-errors
   =f.text_area :body
   br
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+  .answer_files
+    = f.fields_for :attachments do |attach|
+      = render 'attachment_fields', f: attach
+      .links
+        = link_to_add_association 'Add file', f, :attachments
   br
   =f.submit 'Give an answer'
