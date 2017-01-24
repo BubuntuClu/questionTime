@@ -1,5 +1,10 @@
 div.answer_body
   = answer.body
+  p Attchaments:
+  ul
+    - answer.attachments.each do |a|
+      = render 'attachments/attachment', a: a
+      
   - if current_user && current_user.author_of?(answer)
     br
     =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }

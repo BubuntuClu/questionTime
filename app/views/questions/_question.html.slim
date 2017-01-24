@@ -2,6 +2,11 @@
 br
 =@question.body
 br
+p Attchaments:
+ul
+  - @question.attachments.each do |a|
+    = render 'attachments/attachment', a: a
+br
 - if current_user && current_user.author_of?(@question)
   =link_to 'Edit question', '', class: 'edit-question-link', data: { question_id: @question.id }
   br
