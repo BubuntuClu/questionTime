@@ -4,7 +4,7 @@ br
 .answers
   = render @question.answers.ordered
 
-=form_for [@question, @answer], remote: true do |f|
+=form_for [@question, @answer], remote: true, data: { type: :json } do |f|
   =f.label :body
   .answers-errors
   =f.text_area :body

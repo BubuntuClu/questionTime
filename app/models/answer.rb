@@ -2,6 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachmentable
+  has_many :votes, as: :votable
 
   scope :ordered, -> { order("best DESC") }
 
