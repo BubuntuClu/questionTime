@@ -67,6 +67,22 @@ feature 'Vote for question', %q{
         expect(page).to_not have_link 'Unvote'
         expect(page).to have_text 'Rating: 0'
       end
+
+      scenario 'Not author tryes to vote second time for same question', js: true do
+        click_on 'Vote down'
+        expect(page).to_not have_link 'Vote up'
+        expect(page).to_not have_link 'Vote down'
+        expect(page).to have_link 'Unvote'
+        expect(page).to have_text 'Rating: -1'
+        visit questions_path
+
+        expect(page).to_not have_link 'Vote up'
+        expect(page).to_not have_link 'Vote down'
+        expect(page).to have_link 'Unvote'
+        expect(page).to have_text 'Rating: -1'
+        save_and_open_page
+      end
+
     end 
   end
 end
