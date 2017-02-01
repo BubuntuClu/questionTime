@@ -1,8 +1,5 @@
 p
   = link_to 'Ask question', new_question_path
-  | &nbsp
-  = link_to 'Ask question', new_question_path
-
 .questions
   -@questions.each do |q|
     h2.title_question
@@ -10,6 +7,11 @@ p
       br
       =link_to 'View question', question_path(q)
       br
-      -if current_user && current_user.author_of?(q)
-        =link_to 'Delete question', q, method: :delete, data: { confirm: ' Are you sure?' }
+      .votes
+        div id="question_#{q.id}"
+          p = "Rating: #{q.rating}"
+        -if current_user && current_user.author_of?(q)
+          =link_to 'Delete question', q, method: :delete, data: { confirm: ' Are you sure?' }
+        -if user_signed_in? && !current_user.author_of?(q)
+          div #{link_to 'Vote up', votes_path( vote: {votable_id: q, votable_type: q.class.name, value: 1 }), method: 'post', remote: true, format: :json, class: 'vote_up'} #{link_to 'Vote down',votes_path( vote: {votable_id: q, votable_type: q.class.name, value: -1 }), method: 'post', remote: true, format: :json, class: 'vote_down'} #{link_to 'Unvote',vote_path( id: 0, vote: {votable_id: q, votable_type: q.class.name }), method: 'delete', remote: true, format: :json, class: 'hidden unvote'}
   br

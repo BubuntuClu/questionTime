@@ -10,5 +10,6 @@ Rails.application.routes.draw do
     end
   end
   resources :attachments, only: :destroy
+  resources :votes, only: [:create, :destroy]
   root to: "questions#index"
 end
