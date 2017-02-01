@@ -1,0 +1,7 @@
+.votes
+  div id="#{obj.class.name.underscore}_#{obj.id}"
+    p = "Rating: #{obj.rating}"
+  -if current_user && current_user.author_of?(obj)
+    =link_to 'Delete question', obj, method: :delete, data: { confirm: ' Are you sure?' }
+  -if user_signed_in? && !current_user.author_of?(obj)
+    div #{link_to 'Vote up', votes_path( vote: {votable_id: obj, votable_type: obj.class.name, value: 1 }), method: 'post', remote: true, format: :json, class: 'vote_up'} #{link_to 'Vote down',votes_path( vote: {votable_id: obj, votable_type: obj.class.name, value: -1 }), method: 'post', remote: true, format: :json, class: 'vote_down'} #{link_to 'Unvote',vote_path( id: 0, vote: {votable_id: obj, votable_type: obj.class.name }), method: 'delete', remote: true, format: :json, class: 'hidden unvote'}
