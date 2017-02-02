@@ -2,7 +2,8 @@ class VotesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    obj = vote_params[:votable_type].constantize.find(vote_params[:votable_id])
+    klass, id = request.path.split('/')[1,2]
+    obj = klass.singularize.classify.constantize.find(id)
     if !current_user.author_of?(obj)
       vote = obj.send("vote_#{vote_params[:value]}", current_user, vote_params)
       if vote.persisted?
@@ -16,8 +17,10 @@ class VotesController < ApplicationController
   end
 
   def destroy
+    # klass, id = request.path.split('/')[1,2]
+    # obj = klass.singularize.classify.constantize.find(id)
     obj = vote_params[:votable_type].constantize.find(vote_params[:votable_id])
-    if !current_user.author_of?(obj)
+    if !current_user.author_of?(obj) && obj.votes.where(users_id: current_user.id).take.users_id == current_user.id
       vote = obj.unvote(current_user)      
       if vote.persisted?
         render json: obj.errors.full_messages, status: :unprocessable_entity
