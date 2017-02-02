@@ -5,8 +5,6 @@ RSpec.describe Question, type: :model do
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should belong_to(:user) }
-    it { should have_many(:attachments) }
-    it { should have_many(:votes) }
   end
 
   describe 'validations' do
@@ -16,7 +14,8 @@ RSpec.describe Question, type: :model do
     it { should validate_length_of(:body).is_at_least(10) }
   end
 
-  describe 'attributes' do
-    it { should accept_nested_attributes_for :attachments }
+  describe 'concern' do
+    it_behaves_like 'votable'
+    it_behaves_like 'attachmentable'
   end
 end

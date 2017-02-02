@@ -80,7 +80,6 @@ feature 'Vote for question', %q{
         expect(page).to_not have_link 'Vote down'
         expect(page).to have_link 'Unvote'
         expect(page).to have_text 'Rating: -1'
-        save_and_open_page
       end
 
     end 
