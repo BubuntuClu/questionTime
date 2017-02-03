@@ -23,5 +23,9 @@ shared_examples_for "votable" do
       expect(question.rating).to eq(0)
     end
 
+    it "author of vote?" do
+      question.vote_down(user, { votable_id: question.id, votable_type: "Question", value: "down" })
+      expect(question.author_of_vote?(user)).to be true
+    end
   end
 end
