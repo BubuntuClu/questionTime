@@ -1,9 +1,13 @@
+- vote_button = (obj.voted_for(current_user) == 0 ) ? "" : "hidden"
+- unvote_button = (obj.voted_for(current_user) == 0 ) ? "hidden" : ""
+
 .votes
   div id="#{obj.class.name.underscore}_#{obj.id}"
     p = "Rating: #{obj.rating}"
   -if current_user && current_user.author_of?(obj)
     =link_to 'Delete question', obj, method: :delete, data: { confirm: ' Are you sure?' }
   -if user_signed_in? && !current_user.author_of?(obj)
-    div #{link_to 'Vote up', send("#{obj.class.name.underscore}_votes_path", obj, vote: { value: 'up' }), method: 'post', remote: true, format: :json, class: "vote_up #{obj.votes.where(users_id: current_user.id).blank? ? '' : 'hidden' }"} #{link_to 'Vote down',send("#{obj.class.name.underscore}_votes_path", obj, vote: { value: 'down' }), method: 'post', remote: true, format: :json, class: "vote_down #{obj.votes.where(users_id: current_user.id).blank? ? '' : 'hidden' }"} #{link_to 'Unvote',send("#{obj.class.name.underscore}_votes_path", obj ), method: 'delete', remote: true, format: :json, class: "unvote #{obj.votes.where(users_id: current_user.id).blank? ? 'hidden' : '' }"}
-  ="#{obj.class.name.underscore}_votes_path"
-
+    div 
+      = link_to 'Vote up', polymorphic_url([obj, :votes], value: 'up'), method: 'post', remote: true, format: :json, class: "vote_up #{vote_button}"
+      = link_to 'Vote down', polymorphic_url([obj, :votes], value: 'down'), method: 'post', remote: true, format: :json, class: "vote_down #{vote_button}"
+      = link_to 'Unvote', polymorphic_url([obj, :vote], [obj]), method: 'delete', remote: true, format: :json, class: "unvote #{unvote_button}"

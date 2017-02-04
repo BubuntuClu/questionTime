@@ -4,7 +4,8 @@ div.answer_body
   ul
     - answer.attachments.each do |a|
       = render 'attachments/attachment', a: a
-    =render 'votes/votes', obj: answer
+    - if user_signed_in?
+      =render 'votes/votes', obj: answer
   - if current_user && current_user.author_of?(answer)
     br
     =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }

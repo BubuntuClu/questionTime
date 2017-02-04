@@ -23,6 +23,14 @@ shared_examples_for "votable" do
       expect(obj.rating).to eq(0)
     end
 
+    it "voted_for" do
+      val = obj.voted_for(user)
+      expect(val).to eq(0)
+      obj.vote_down(user, { votable_id: obj.id, votable_type: "obj", value: "down" })
+      val = obj.voted_for(user)
+      expect(obj.rating).to eq(-1)
+    end
+
     it "author of vote?" do
       obj.vote_down(user, { votable_id: obj.id, votable_type: "obj", value: "down" })
       expect(obj.author_of_vote?(user)).to be true

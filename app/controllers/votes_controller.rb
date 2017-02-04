@@ -16,10 +16,7 @@ class VotesController < ApplicationController
   end
 
   def destroy
-    binding.pry
-    # klass, id = request.path.split('/')[1,2]
-    # obj = klass.singularize.classify.constantize.find(id)
-    obj = vote_params[:votable_type].constantize.find(vote_params[:votable_id])
+    obj = get_obj_by_url(request)
     if obj.author_of_vote?(current_user)
       vote = obj.unvote(current_user)      
       if vote.persisted?
@@ -35,7 +32,7 @@ class VotesController < ApplicationController
   private
 
   def vote_params
-    params.require(:vote).permit(:votable_id, :votable_type, :value)
+    params.permit(:value)
   end
 
   def get_obj_by_url(request)

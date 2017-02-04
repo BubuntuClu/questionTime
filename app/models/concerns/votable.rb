@@ -34,6 +34,10 @@ module Votable
     get_vote_for_obj_by_user(user).users_id == user.id
   end
 
+  def voted_for(user)
+    self.votes.where(users_id: user.id).take&.value || 0
+  end
+
   private 
 
   def sum

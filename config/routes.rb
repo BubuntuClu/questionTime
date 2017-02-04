@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
-
-  # resources :answers 
   
   concern :votable do
-    resources :votes, only: [:create, :destroy], shallow: true
+    resources :votes, only: [:create, :destroy]
   end
+  # Только таким способом, мне удалось сделать одинаковую ссылку на удаление голоса для ответа и вопроса
+  resources :answers, concerns: :votable
   
   resources :questions, concerns: :votable do
-    resources :answers, shallow: true, concerns: :votable do
+    resources :answers, shallow: true do
       member do
         post :mark_best
       end
