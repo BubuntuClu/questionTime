@@ -11,11 +11,11 @@ RSpec.describe VotesController, type: :controller do
   describe 'POST #create' do
     context 'vote for question' do
       it 'increase votes for question' do
-        expect { post :create, params:{ vote: { votable_id: @question , votable_type: @question.class.name, value: 1 }, format: :json } }.to change(@question.votes.where(users_id: @user2.id), :count).by(1)
+        expect { post :create, params:{ question_id: @question, vote: { value: 'up' }, format: :json } }.to change(@question.votes.where(users_id: @user2.id), :count).by(1)
       end
 
       it 'renders needed fields in JSON' do
-        post :create, params:{ vote: { votable_id: @question , votable_type: @question.class.name, value: 1 }, format: :json } 
+        post :create, params:{ question_id: @question, vote: { value: 'down' }, format: :json }
         expect(response).to have_http_status :success
 
         result = JSON.parse(response.body)

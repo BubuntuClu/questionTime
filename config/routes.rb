@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :answers 
+  # resources :answers 
   
   concern :votable do
     resources :votes, only: [:create, :destroy], shallow: true

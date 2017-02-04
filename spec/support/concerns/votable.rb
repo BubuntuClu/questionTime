@@ -5,27 +5,27 @@ shared_examples_for "votable" do
 
   context "votes" do
     let(:user) { create(:user) }
-    let(:question) { create(:question) }
+    let(:obj) { create(described_class) }
 
     it "vote up" do
-      question.vote_up(user, { votable_id: question.id, votable_type: "Question", value: "up" })
-      expect(question.rating).to eq(1)
+      obj.vote_up(user, { votable_id: obj.id, votable_type: "obj", value: "up" })
+      expect(obj.rating).to eq(1)
     end
 
     it "vote down" do
-      question.vote_down(user, { votable_id: question.id, votable_type: "Question", value: "down" })
-      expect(question.rating).to eq(-1)
+      obj.vote_down(user, { votable_id: obj.id, votable_type: "obj", value: "down" })
+      expect(obj.rating).to eq(-1)
     end
 
     it "unvote" do
-      question.vote_down(user, { votable_id: question.id, votable_type: "Question", value: "down" })
-      question.unvote(user)
-      expect(question.rating).to eq(0)
+      obj.vote_down(user, { votable_id: obj.id, votable_type: "obj", value: "down" })
+      obj.unvote(user)
+      expect(obj.rating).to eq(0)
     end
 
     it "author of vote?" do
-      question.vote_down(user, { votable_id: question.id, votable_type: "Question", value: "down" })
-      expect(question.author_of_vote?(user)).to be true
+      obj.vote_down(user, { votable_id: obj.id, votable_type: "obj", value: "down" })
+      expect(obj.author_of_vote?(user)).to be true
     end
   end
 end
