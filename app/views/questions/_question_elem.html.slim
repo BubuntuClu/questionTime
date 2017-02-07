@@ -1,0 +1,8 @@
+h2.title_question
+  =question.title
+  br
+  =link_to 'View question', question_path(question)
+  br
+  - if user_signed_in?
+    =render 'votes/votes', obj: q
+br

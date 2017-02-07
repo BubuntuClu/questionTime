@@ -12,3 +12,13 @@ edit_question = ->
 $(document).ready(edit_question)
 $(document).on('page:load', edit_question)
 $(document).on('page:update', edit_question)
+
+
+App.cable.subscriptions.create('QuestionsChannel', {
+  connected: ->
+    @perform 'follow'
+  ,
+  
+  received: (data) ->
+    $('.questions').append data
+})

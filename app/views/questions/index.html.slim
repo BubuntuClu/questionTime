@@ -2,11 +2,4 @@ p
   = link_to 'Ask question', new_question_path
 .questions
   -@questions.each do |q|
-    h2.title_question
-      =q.title
-      br
-      =link_to 'View question', question_path(q)
-      br
-      - if user_signed_in?
-        =render 'votes/votes', obj: q
-  br
+    = render 'question_elem', question: q
