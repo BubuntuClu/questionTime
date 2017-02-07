@@ -1,5 +1,5 @@
-p= link_to 'Ask question', new_question_path
-
+p
+  = link_to 'Ask question', new_question_path
 .questions
   -@questions.each do |q|
     h2.title_question
@@ -7,6 +7,6 @@ p= link_to 'Ask question', new_question_path
       br
       =link_to 'View question', question_path(q)
       br
-      -if current_user && current_user.author_of?(q)
-        =link_to 'Delete question', q, method: :delete, data: { confirm: ' Are you sure?' }
+      - if user_signed_in?
+        =render 'votes/votes', obj: q
   br

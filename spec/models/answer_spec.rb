@@ -5,7 +5,6 @@ RSpec.describe Answer, type: :model do
   describe 'associations' do
     it { should belong_to(:question) }
     it { should belong_to(:user) }
-    it { should have_many(:attachments) }
   end
 
   describe 'validations' do
@@ -40,7 +39,8 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe 'attributes' do
-    it { should accept_nested_attributes_for :attachments }
+  describe 'concern' do
+    it_behaves_like 'votable'
+    it_behaves_like 'attachmentable'
   end
 end
