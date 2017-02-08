@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :get_question, only: [:create]
   
+  after_action :publish_answer, only: [:create]
+
   def new
     @answer = Answer.new
   end
@@ -31,6 +33,7 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
+    binding.pry
     @answer = Answer.find(params[:id])
     @question = @answer.question
     @answer.set_best_answer
@@ -44,6 +47,16 @@ class AnswersController < ApplicationController
 
   def get_question
     @question = Question.find(params[:question_id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+      "question_#{@question.id}_answers", 
+      answer: @answer,
+      author: current_user.id,
+      type: 'answer'
+    )
   end
 
 end

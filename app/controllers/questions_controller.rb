@@ -51,6 +51,7 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.find(params[:id])
+    gon.question_id = @question.id
   end
 
   def publish_question

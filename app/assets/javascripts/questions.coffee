@@ -16,7 +16,7 @@ $(document).on('page:update', edit_question)
 
 App.cable.subscriptions.create('QuestionsChannel', {
   connected: ->
-    @perform 'follow'
+    @perform 'follow_question'
   ,
   
   received: (data) ->

@@ -23,3 +23,5 @@ $ ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
       $('.answers-errors').append(value);
+
+
