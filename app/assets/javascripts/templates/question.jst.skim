@@ -1,0 +1,7 @@
+h2.title_question
+  =@title
+  br
+  a href="/questions/#{@id}" View question
+  br
+
+br
