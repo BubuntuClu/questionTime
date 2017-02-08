@@ -1,7 +1,8 @@
 h2.title_question
-  =@title
+  =@question.title
   br
-  a href="/questions/#{@id}" View question
+  a href="/questions/#{@question.id}" View question
   br
-
+  - if gon.user_id != @author
+    = JST["templates/votes"] ({ obj: @question, author: @author, type: @type })
 br

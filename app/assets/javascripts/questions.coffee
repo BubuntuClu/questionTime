@@ -20,5 +20,5 @@ App.cable.subscriptions.create('QuestionsChannel', {
   ,
   
   received: (data) ->
-    $('.questions').append JST["templates/question"] data.question
+    $('.questions').append JST["templates/question"] ({ question: data.question, author: data.author, type: data.type })
 })

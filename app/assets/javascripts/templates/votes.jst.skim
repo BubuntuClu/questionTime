@@ -1,0 +1,6 @@
+.votes
+  div id="#{@type}_#{@obj.id}"
+    p = "Rating: #{@obj.rating}"
+  -if gon.user_id != undefined && (gon.user_id != @author)
+    div 
+      a href="/#{@type}s/#{@obj.id}/votes" method: :post 

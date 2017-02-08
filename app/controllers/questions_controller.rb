@@ -57,7 +57,9 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
     ActionCable.server.broadcast(
       'questions', 
-      question: @question 
+      question: @question,
+      author: current_user.id,
+      type: 'question'
     )
   end
 

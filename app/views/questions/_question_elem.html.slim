@@ -3,6 +3,9 @@ h2.title_question
   br
   =link_to 'View question', question_path(question)
   br
+  -if current_user && current_user.author_of?(question)
+    =link_to 'Delete question', question, method: :delete, data: { confirm: ' Are you sure?' }
+  br
   - if user_signed_in?
       =render 'votes/votes', obj: question
 br
