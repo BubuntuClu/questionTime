@@ -1,6 +1,11 @@
 h2#title_question
   =render @question
 br
+.question_comments
+  = render @question.comments
+  = render '/comments/comment_form', obj: @question
+  
+be
 .answers
   = render @question.answers.ordered
 

@@ -16,7 +16,6 @@ class VotesController < ApplicationController
   end
 
   def destroy
-    binding.pry
     obj = get_obj_by_url(request)
     if obj.author_of_vote?(current_user)
       vote = obj.unvote(current_user)      

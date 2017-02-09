@@ -1,0 +1,6 @@
+= form_for :comment, url: ( ("#{obj.class.name.underscore}" == "question") ? question_comments_path(obj) : answer_comments_path(obj) ), html: { id: 'new_comment' }, remote: true, format: :json do |f|
+  =f.label :body
+  =f.text_area :body
+  br
+  =f.submit "Comment #{obj.class.name.underscore}"
+  br
