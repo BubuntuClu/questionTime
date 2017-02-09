@@ -60,6 +60,8 @@ feature 'Create question', %q{
 
       Capybara.using_session('quest') do
         expect(page).to have_content 'Test question'
+        expect(page).to have_content 'Vote up'
+        expect(page).to have_content 'Vote Down'
       end
     end
   end

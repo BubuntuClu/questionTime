@@ -11,15 +11,15 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    respond_to do |format|
-      if @answer.save
-        format.html { render partial: @answer, layout: false }
-        format.json { render json: @answer }
-      else
-        format.html { render text: @answer.errors.full_messages.join("\n"), status: :unprocessable_entity }
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    @answer.save
+    #     format.html { render partial: @answer, layout: false }
+    #     format.json { render json: @answer }
+    #   else
+    #     format.html { render text: @answer.errors.full_messages.join("\n"), status: :unprocessable_entity }
+    #     format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   def destroy
@@ -33,7 +33,6 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
-    binding.pry
     @answer = Answer.find(params[:id])
     @question = @answer.question
     @answer.set_best_answer
@@ -51,9 +50,12 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
+    attachments = []
+    @answer.attachments.each { |a| attachments << { id: a.id, identifier: a.file.identifier, url: a.file.url } }
     ActionCable.server.broadcast(
       "question_#{@question.id}_answers", 
       answer: @answer,
+      attachments: attachments,
       author: current_user.id,
       type: 'answer'
     )

@@ -4,5 +4,6 @@ App.cable.subscriptions.create('AnswersChannel', {
   ,
   
   received: (data) ->
-    $('.answers').append JST["templates/answer"] ({ answer: data.answer, author: data.author, type: data.type })
+    if (gon.user_id != data.author)
+      $('.answers').append JST["templates/answer"] ({ answer: data.answer, author: data.author, type: data.type, attachments: data.attachments })
 })

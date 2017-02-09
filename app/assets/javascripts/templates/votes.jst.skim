@@ -5,4 +5,4 @@
     div 
       a data-method="post" data-remote="true" class="vote_up" data-format="json" href="/#{@type}s/#{@obj.id}/votes?value=up" Vote up
       a data-method="post" data-remote="true" class="vote_down" data-format="json" href="/#{@type}s/#{@obj.id}/votes?value=down" Vote down
-      a data-method="delete" data-remote="true" class="unvote" data-format="json" href="/#{@type}s/#{@obj.id}/votes/#{@obj.id}" Unvote
+      a data-method="delete" data-remote="true" class="unvote hidden" data-format="json" href="/#{@type}s/#{@obj.id}/votes/#{@obj.id}" Unvote

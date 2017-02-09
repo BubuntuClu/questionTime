@@ -1,0 +1,3 @@
+- for a in @attachments when a.id
+  div id="attachment_#{a.id}"
+    a href="#{a.url}" =a.identifier

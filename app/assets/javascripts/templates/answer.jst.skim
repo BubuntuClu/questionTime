@@ -1,2 +1,7 @@
 div.answer_body
   = @answer.body
+  p Attchaments:
+  ul
+    == JST["templates/attachments"] ({ attachments: @attachments })
+  - if gon.user_id != @author
+    == JST["templates/votes"] ({ obj: @answer, author: @author, type: @type })
