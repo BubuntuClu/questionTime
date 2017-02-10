@@ -17,5 +17,6 @@ RSpec.describe Question, type: :model do
   describe 'concern' do
     it_behaves_like 'votable'
     it_behaves_like 'attachmentable'
+    it_behaves_like 'commentable'
   end
 end

@@ -12,3 +12,13 @@ edit_question = ->
 $(document).ready(edit_question)
 $(document).on('page:load', edit_question)
 $(document).on('page:update', edit_question)
+
+
+App.cable.subscriptions.create('QuestionsChannel', {
+  connected: ->
+    @perform 'follow_question'
+  ,
+  
+  received: (data) ->
+    $('.questions').append JST["templates/question"] ({ question: data.question, author: data.author, type: data.type })
+})

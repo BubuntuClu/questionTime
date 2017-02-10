@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
   devise_for :users
   
+  concern :commentable do
+    resources :comments, shallow: true
+  end
   concern :votable do
     resources :votes, only: [:create, :destroy]
   end
-  # Только таким способом, мне удалось сделать одинаковую ссылку на удаление голоса для ответа и вопроса
-  resources :answers, concerns: :votable
+  resources :answers, concerns: [:votable, :commentable]
   
-  resources :questions, concerns: :votable do
+  resources :questions, concerns: [:votable, :commentable] do
     resources :answers, shallow: true do
       member do
         post :mark_best
@@ -16,4 +18,6 @@ Rails.application.routes.draw do
   end
   resources :attachments, only: :destroy
   root to: "questions#index"
+
+  mount ActionCable.server => '/cable'
 end

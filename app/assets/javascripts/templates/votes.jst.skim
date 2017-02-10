@@ -1,0 +1,8 @@
+.votes
+  div id="#{@type}_#{@obj.id}"
+    p = "Rating: #{@obj.rating}"
+  -if gon.user_id && (gon.user_id != @author)
+    div 
+      a data-method="post" data-remote="true" class="vote_up" data-format="json" href="/#{@type}s/#{@obj.id}/votes?value=up" Vote up
+      a data-method="post" data-remote="true" class="vote_down" data-format="json" href="/#{@type}s/#{@obj.id}/votes?value=down" Vote down
+      a data-method="delete" data-remote="true" class="unvote hidden" data-format="json" href="/#{@type}s/#{@obj.id}/votes/#{@obj.id}" Unvote

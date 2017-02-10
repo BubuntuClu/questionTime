@@ -23,3 +23,7 @@ div.answer_body
           = f.label :body, "Edit answer"
           = f.text_area :body
           = f.submit 'Save'
+    br
+  div id="answer_#{answer.id}_comments"
+    = render answer.comments
+    = render '/comments/comment_form', obj: answer

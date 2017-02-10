@@ -35,6 +35,44 @@ feature 'Create answer', %q{
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
+  context "multiple sessions" do
+    scenario "answer appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('quest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'Text testx answer'
+        click_on 'Add file'
+        within page.all('.nested-fields')[0] do 
+          attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+        end
+
+        within page.all('.nested-fields')[1] do 
+          attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+        end
+        click_on 'Give an answer'
+        expect(page).to have_content 'Text testx answer'
+        save_and_open_page
+        expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+        expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+      end
+
+      Capybara.using_session('quest') do
+        within '.answers' do
+          expect(page).to have_content 'Text testx answer'
+          expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+          expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+        end
+      end
+    end
+  end
+
   private
 
   def give_an_answer
