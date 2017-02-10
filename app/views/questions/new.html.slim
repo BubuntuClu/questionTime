@@ -8,7 +8,7 @@
   .attachments
     p Attachments:
     br  
-    = f.simple_fields_for :attachments do |attach|
+    = f.simple_fields_for :attachments, @question.attachments.build do |attach|
       = render 'attachment_fields', f: attach
       .links
         = link_to_add_association 'Add file', f, :attachments

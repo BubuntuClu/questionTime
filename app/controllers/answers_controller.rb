@@ -1,41 +1,30 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :get_question, only: [:create]
-  
+  before_action :load_answer, except: [:new, :create]
+
   after_action :publish_answer, only: [:create]
 
-  def new
-    @answer = Answer.new
-  end
+  respond_to :json, :js
 
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    # respond_to do |format|
-    @answer.save
-    #     format.html { render partial: @answer, layout: false }
-    #     format.json { render json: @answer }
-    #   else
-    #     format.html { render text: @answer.errors.full_messages.join("\n"), status: :unprocessable_entity }
-    #     format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-    #   end
-    # end
+    respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
-    @answer.destroy if current_user.author_of?(@answer)
+    respond_with (@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def update
-    @answer = Answer.find(params[:id])
     @answer.update(answer_params)
+    respond_with @answer
   end
 
   def mark_best
-    @answer = Answer.find(params[:id])
     @question = @answer.question
     @answer.set_best_answer
+    respond_with @question
   end
 
   private
@@ -46,6 +35,10 @@ class AnswersController < ApplicationController
 
   def get_question
     @question = Question.find(params[:question_id])
+  end
+
+  def load_answer
+    @answer = Answer.find(params[:id])
   end
 
   def publish_answer

@@ -15,7 +15,7 @@ be
   =f.text_area :body
   br
   .answer_files
-    = f.fields_for :attachments do |attach|
+    = f.fields_for :attachments, @answer.attachments.build do |attach|
       = render 'attachment_fields', f: attach
       .links
         = link_to_add_association 'Add file', f, :attachments
