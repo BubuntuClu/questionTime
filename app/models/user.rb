@@ -18,13 +18,22 @@ class User < ApplicationRecord
     id == message.user_id
   end
 
-  def self.find_for_oauth(auth)
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first #.find_for_oauth(auth)
-    return authorization.user if authorization
+  def send_email(params)
+    self.generate_confirmation_token!
+    self.update(params)
+    Devise::Mailer.confirmation_instructions(self, self.confirmation_token).deliver_now
+  end
 
+  def create_authorization(auth) 
+    authorizations.create(provider: auth.provider, uid: auth.uid) 
+  end
+
+  def self.find_for_oauth(auth)
+    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+    return authorization.user if authorization
     email = begin
               auth.info[:email] 
-            rescue 
+            rescue NoMethodError
               nil
             end
     email = "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" unless email
@@ -41,7 +50,4 @@ class User < ApplicationRecord
     user
   end
 
-  def create_authorization(auth) 
-    authorizations.create(provider: auth.provider, uid: auth.uid) 
-  end
 end

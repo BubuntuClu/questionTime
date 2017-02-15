@@ -24,5 +24,5 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   mount ActionCable.server => '/cable'
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:patch], :as => :finish_signup
 end
