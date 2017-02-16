@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { confirmations: 'confirmations', omniauth_callbacks: 'omniauth_callbacks' } do
+    member do
+        get :conrifm_email
+      end
+    end
   
   concern :commentable do
     resources :comments, shallow: true
@@ -20,4 +24,5 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   mount ActionCable.server => '/cable'
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:patch], :as => :finish_signup
 end
