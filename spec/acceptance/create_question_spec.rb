@@ -12,9 +12,11 @@ feature 'Create question', %q{
     sign_in(user)
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'Text testx question'
-    click_on 'Create'
+    within '.new_question' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'Text testx question'
+      click_on 'Create'
+    end
     expect(page).to have_content 'Your question successfully created.'
     expect(page).to have_content 'Test question'
     expect(page).to have_content 'Text testx question'

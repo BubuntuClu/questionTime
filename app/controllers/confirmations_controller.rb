@@ -1,5 +1,5 @@
 class ConfirmationsController < Devise::ConfirmationsController
-
+  
   def show
     user = User.find_by(confirmation_token: params[:confirmation_token])
     if user

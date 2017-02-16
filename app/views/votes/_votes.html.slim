@@ -4,8 +4,6 @@
 .votes
   div id="#{obj.class.name.underscore}_#{obj.id}"
     p = "Rating: #{obj.rating}"
-  -if current_user && current_user.author_of?(obj)
-    =link_to 'Delete question', obj, method: :delete, data: { confirm: ' Are you sure?' }
   -if user_signed_in? && !current_user.author_of?(obj)
     div 
       = link_to 'Vote up', polymorphic_url([obj, :votes], value: 'up'), method: 'post', remote: true, format: :json, class: "vote_up #{vote_button}"

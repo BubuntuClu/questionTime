@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
+  authorize_resource
+
   respond_to :json, :js
 
   def create
@@ -13,7 +15,9 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    respond_with (@answer.destroy) if current_user.author_of?(@answer)
+    @question = @answer.question
+    @answer.destroy if current_user.author_of?(@answer)
+    respond_with (@question) 
   end
 
   def update

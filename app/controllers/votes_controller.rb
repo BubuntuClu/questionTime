@@ -1,7 +1,7 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_obj
-
+  authorize_resource
   def create
     if !current_user.author_of?(@obj)
       vote = @obj.send("vote_#{vote_params[:value]}", current_user, vote_params)
