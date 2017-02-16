@@ -12,13 +12,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
-  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
-
   def author_of?(message)
     id == message.user_id
   end
 
-  def send_email(params)
+  def send_confirmation(params)
     self.generate_confirmation_token!
     self.update(params)
     Devise::Mailer.confirmation_instructions(self, self.confirmation_token).deliver_now
@@ -31,13 +29,12 @@ class User < ApplicationRecord
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
-    email = begin
-              auth.info[:email] 
-            rescue NoMethodError
-              nil
-            end
-    email = "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" unless email
+
+    email = auth.info[:email] if auth.info && auth.info[:email] 
+    email ||= "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com"
+
     user = User.where(email: email).first
+
     if user
       user.create_authorization(auth)
     else
@@ -47,6 +44,7 @@ class User < ApplicationRecord
       user.save!
       user.create_authorization(auth)
     end
+    
     user
   end
 

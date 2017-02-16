@@ -2,7 +2,11 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def finish_signup
-    @user.send_email(user_params)      
+    if !User.find_by(email: user_params[:email])
+      @user.send_confirmation(user_params)
+    else
+      @user.errors.add(:email, 'Такой email уже есть в системе. Пожалуйста введите другой')
+    end
   end
 
   private
