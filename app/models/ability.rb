@@ -5,7 +5,6 @@ class Ability
 
   def initialize(user)
     @user = user
-
     if user
       user.admin? ? admin_abilities : user_abilities
     else
@@ -26,11 +25,13 @@ class Ability
     can :create, [Question, Answer, Comment, Vote]
     can :update, [Question, Answer], user: @user
     can :destroy, [Question, Answer, Vote], user: @user
+
+    can :destroy, Comment do |comment|
+      comment.users_id == @user.id
+    end
     can :manage, Attachment do |attachment|
       attachment.attachmentable.user_id == @user.id
     end
-    can :manage, Vote do |vote|
-      vote.votable.user_id == @user.id
-    end
+    can :mark_best, Question, user: @user
   end
 end

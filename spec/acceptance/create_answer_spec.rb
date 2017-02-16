@@ -58,7 +58,6 @@ feature 'Create answer', %q{
         end
         click_on 'Give an answer'
         expect(page).to have_content 'Text testx answer'
-        save_and_open_page
         expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
         expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
       end

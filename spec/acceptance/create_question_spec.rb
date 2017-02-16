@@ -29,7 +29,7 @@ feature 'Create question', %q{
     fill_in 'Title', with: 'Test'
     fill_in 'Body', with: 'Text'
     click_on 'Create'
-    expect(page).to have_content 'Not valid data.'
+    expect(page).to have_content 'Question could not be created.'
     expect(current_path).to eq questions_path
   end
 
@@ -47,6 +47,8 @@ feature 'Create question', %q{
       end
 
       Capybara.using_session('quest') do
+        user2 = create(:user)
+        sign_in(user2)
         visit questions_path
       end
 

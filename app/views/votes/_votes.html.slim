@@ -7,5 +7,7 @@
   -if user_signed_in? && !current_user.author_of?(obj)
     div 
       = link_to 'Vote up', polymorphic_url([obj, :votes], value: 'up'), method: 'post', remote: true, format: :json, class: "vote_up #{vote_button}"
+
       = link_to 'Vote down', polymorphic_url([obj, :votes], value: 'down'), method: 'post', remote: true, format: :json, class: "vote_down #{vote_button}"
+      
       = link_to 'Unvote', polymorphic_url([obj, :vote], [obj]), method: 'delete', remote: true, format: :json, class: "unvote #{unvote_button}"
