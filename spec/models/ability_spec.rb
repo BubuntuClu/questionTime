@@ -53,7 +53,7 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :manage, question_attachment, user: question_attachment.attachmentable.user }
 
-    it { should be_able_to :mark_best, other_answer, user: user }
+    it { should be_able_to :mark_best, other_answer, user: other_user }
 
   end
 

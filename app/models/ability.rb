@@ -31,7 +31,7 @@ class Ability
 
     can :manage, Attachment, attachmentable: { user_id: @user.id }
     can :mark_best, Answer do |answer|
-      answer.question.user_id != @user.id
+      answer.question.user_id == @user.id && answer.best == false
     end
   end
 end
