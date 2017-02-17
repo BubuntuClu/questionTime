@@ -3,21 +3,22 @@ h2#title_question
 br
 .question_comments
   = render @question.comments
-  = render '/comments/comment_form', obj: @question
+  - if can?(:create, Comment)
+    = render '/comments/comment_form', obj: @question
   
 be
 .answers
   = render @question.answers.ordered
-
-=form_for [@question, @answer], remote: true do |f|
-  =f.label :body
-  .answers-errors
-  =f.text_area :body
-  br
-  .answer_files
-    = f.fields_for :attachments, @answer.attachments.build do |attach|
-      = render 'attachment_fields', f: attach
-      .links
-        = link_to_add_association 'Add file', f, :attachments
-  br
-  =f.submit 'Give an answer'
+- if can?(:create, Answer)
+  =form_for [@question, @answer], remote: true do |f|
+    =f.label :body
+    .answers-errors
+    =f.text_area :body
+    br
+    .answer_files
+      = f.fields_for :attachments, @answer.attachments.build do |attach|
+        = render 'attachment_fields', f: attach
+        .links
+          = link_to_add_association 'Add file', f, :attachments
+    br
+    =f.submit 'Give an answer'
