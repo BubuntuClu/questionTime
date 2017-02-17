@@ -24,14 +24,14 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :create, Vote do |vote|
-      vote.votable.user_id != @user.id
+      @user.author_of?(vote.votable)
     end
     can :update, [Question, Answer], user_id: @user.id
     can :destroy, [Question, Answer, Vote], user_id: @user.id
 
     can :manage, Attachment, attachmentable: { user_id: @user.id }
     can :mark_best, Answer do |answer|
-      answer.question.user_id == @user.id && answer.best == false
+      @user.author_of?(answer.question) && !answer.best
     end
   end
 end
