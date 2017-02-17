@@ -22,16 +22,16 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment, Vote]
-    can :update, [Question, Answer], user: @user
-    can :destroy, [Question, Answer, Vote], user: @user
+    can :create, [Question, Answer, Comment]
+    can :create, Vote do |vote|
+      vote.votable.user_id != @user.id
+    end
+    can :update, [Question, Answer], user_id: @user.id
+    can :destroy, [Question, Answer, Vote], user_id: @user.id
 
-    can :destroy, Comment do |comment|
-      comment.users_id == @user.id
+    can :manage, Attachment, attachmentable: { user_id: @user.id }
+    can :mark_best, Answer do |answer|
+      answer.question.user_id != @user.id
     end
-    can :manage, Attachment do |attachment|
-      attachment.attachmentable.user_id == @user.id
-    end
-    can :mark_best, Question, user: @user
   end
 end

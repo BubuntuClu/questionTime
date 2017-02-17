@@ -9,13 +9,14 @@ div.answer_body
   - if answer.best
     p IT IS THE BEST ANSWER!
   -else
-    - if can?(:mark_best, @question)
+    - if can?(:mark_best, answer)
       =link_to 'Mark as best', mark_best_answer_path(answer), method: :post, class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
     br
-  - if current_user && current_user.author_of?(answer)
+  - if can?(:update, answer)
     br
     =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     br
+  - if can?(:destroy, answer)  
     =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }, remote: true
     br
 
