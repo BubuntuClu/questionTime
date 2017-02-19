@@ -12,9 +12,11 @@ feature 'Create question', %q{
     sign_in(user)
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'Text testx question'
-    click_on 'Create'
+    within '.new_question' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'Text testx question'
+      click_on 'Create'
+    end
     expect(page).to have_content 'Your question successfully created.'
     expect(page).to have_content 'Test question'
     expect(page).to have_content 'Text testx question'
@@ -27,14 +29,13 @@ feature 'Create question', %q{
     fill_in 'Title', with: 'Test'
     fill_in 'Body', with: 'Text'
     click_on 'Create'
-    expect(page).to have_content 'Not valid data.'
+    expect(page).to have_content 'Question could not be created.'
     expect(current_path).to eq questions_path
   end
 
   scenario 'Non-authenticated user try to creates qiestion' do
     visit questions_path
-    click_on 'Ask question'  
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Ask question'
   end
 
   context "multiple sessions" do
@@ -45,6 +46,8 @@ feature 'Create question', %q{
       end
 
       Capybara.using_session('quest') do
+        user2 = create(:user)
+        sign_in(user2)
         visit questions_path
       end
 
@@ -61,7 +64,7 @@ feature 'Create question', %q{
       Capybara.using_session('quest') do
         expect(page).to have_content 'Test question'
         expect(page).to have_content 'Vote up'
-        expect(page).to have_content 'Vote Down'
+        expect(page).to have_content 'Vote down'
       end
     end
   end

@@ -6,18 +6,21 @@ div.answer_body
       = render 'attachments/attachment', a: a
     - if user_signed_in?
       =render 'votes/votes', obj: answer
-  - if current_user && current_user.author_of?(answer)
+  - if answer.best
+    p IT IS THE BEST ANSWER!
+  -else
+    - if can?(:mark_best, answer)
+      =link_to 'Mark as best', mark_best_answer_path(answer), method: :post, class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
+    br
+  - if can?(:update, answer)
     br
     =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     br
+  - if can?(:destroy, answer)  
     =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }, remote: true
     br
 
-    - if answer.best
-      p IT IS THE BEST ANSWER!
-    -else
-      =link_to 'Mark as best', mark_best_answer_path(answer), method: :post, class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
-    br
+
       p
         = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
           = f.label :body, "Edit answer"
@@ -26,4 +29,5 @@ div.answer_body
     br
   div id="answer_#{answer.id}_comments"
     = render answer.comments
-    = render '/comments/comment_form', obj: answer
+    -if can?(:create, Comment)
+      = render '/comments/comment_form', obj: answer
