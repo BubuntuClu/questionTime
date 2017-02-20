@@ -30,6 +30,9 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :other_users, on: :collection
       end
+      resources :questions do
+        resources :answers, shallow: true
+      end
     end
   end
 
