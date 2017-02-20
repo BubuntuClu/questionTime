@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { confirmations: 'confirmations', omniauth_callbacks: 'omniauth_callbacks' } do
     member do
         get :conrifm_email
@@ -22,6 +23,15 @@ Rails.application.routes.draw do
   end
   resources :attachments, only: :destroy
   root to: "questions#index"
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+        get :other_users, on: :collection
+      end
+    end
+  end
 
   mount ActionCable.server => '/cable'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:patch], :as => :finish_signup
