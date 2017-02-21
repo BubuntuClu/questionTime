@@ -94,4 +94,53 @@ describe 'Questions API' do
       end
     end
   end
+
+  describe 'POST /create' do
+
+    context 'unauthorized' do
+      it 'return 401 status if there is no access_token' do
+        post "/api/v1/questions", params: { question: attributes_for(:question), format: :json }
+        expect(response.status).to eq 401
+      end
+
+      it 'return 401 status if there is wrong access_token' do
+        post "/api/v1/questions", params: { question: attributes_for(:question), format: :json, access_token: '123' }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      context 'with valid params' do
+        before { post "/api/v1/questions", params: { question: attributes_for(:question), format: :json, access_token: access_token.token } }
+
+        it 'return 201 status' do
+          expect(response).to be_created
+        end
+
+        %w(id title body created_at updated_at).each do |field|
+          it "question object contains #{field}" do
+            expect(response.body).to have_json_path("#{field}")
+          end
+        end 
+
+        it 'saved' do
+          expect { post "/api/v1/questions", params: { question: attributes_for(:question), format: :json, access_token: access_token.token } }.to change(Question, :count).by(1)
+        end 
+      end
+
+      context 'with invalid params' do        
+
+        it 'return 422 status' do
+          post "/api/v1/questions", params: { question: attributes_for(:invalid_question), format: :json, access_token: access_token.token }
+          expect(response.status).to eq 422
+        end
+
+        it 'not saved' do
+          expect { post "/api/v1/questions", params: { question: attributes_for(:invalid_question), format: :json, access_token: access_token.token } }.to_not change(Question, :count)
+        end
+      end  
+    end
+  end
 end

@@ -94,4 +94,54 @@ describe 'Answers API' do
       end
     end
   end
+
+  describe 'POST /create' do
+    let!(:question) { create(:question) }
+
+    context 'unauthorized' do
+      it 'return 401 status if there is no access_token' do
+        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json }
+        expect(response.status).to eq 401
+      end
+
+      it 'return 401 status if there is wrong access_token' do
+        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: '123' }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      context 'with valid params' do
+        before { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token } }
+
+        it 'return 201 status' do
+          expect(response).to be_created
+        end
+
+        %w(id body created_at updated_at).each do |field|
+          it "answer object contains #{field}" do
+            expect(response.body).to have_json_path("#{field}")
+          end
+        end 
+
+        it 'saved' do
+          expect { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token } }.to change(question.answers, :count).by(1)
+        end 
+      end
+
+      context 'with invalid params' do        
+
+        it 'return 422 status' do
+          post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token }
+          expect(response.status).to eq 422
+        end
+
+        it 'not saved' do
+          expect { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token } }.to_not change(question.answers, :count)
+        end
+      end  
+    end
+  end
 end

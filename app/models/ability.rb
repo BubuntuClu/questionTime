@@ -18,6 +18,7 @@ class Ability
 
   def admin_abilities
     can :manage, :all
+    cannot :create, [Question]
   end
 
   def user_abilities
