@@ -1,6 +1,4 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  skip_before_action :verify_authenticity_token
-
   authorize_resource
 
   def index
