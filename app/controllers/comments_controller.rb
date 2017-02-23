@@ -2,7 +2,9 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :get_obj
   after_action :publish_comment, only: [:create]
+
   authorize_resource
+  
   respond_to :json
   
   def create

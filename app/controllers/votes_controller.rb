@@ -1,11 +1,12 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_obj
+
   authorize_resource
+  
   def create
     if !current_user.author_of?(@obj)
       vote = @obj.send("vote_#{vote_params[:value]}", current_user, vote_params)
-      # имеет ли тут смысл заменять, когда у нас разные ответы? в одном случае ошибки, в другом случае составной объект
       if vote.persisted?
         render json: { id: "#{@obj.class.name.underscore}_#{@obj.id}", rating: @obj.rating, action: "vote" }
       else
