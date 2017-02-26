@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Question, type: :model do
+describe Question do
 
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }

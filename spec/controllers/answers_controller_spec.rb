@@ -6,18 +6,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, question: question, user: @user) }
   sign_in_user
 
-  # describe 'Get #new' do
-  #   before { get :new, params: { question_id: question } }
-
-  #   it 'assings a new answer to @answer' do
-  #     expect(assigns(:answer)).to be_a_new(Answer)
-  #   end
-
-  #   it 'renders a new view' do
-  #     expect(response).to render_template :new
-  #   end
-  # end
-
   describe 'POST #mark_best' do
     it 'mark an answer as a best' do
       post :mark_best, params: { id: answer, format: :js }
@@ -94,7 +82,4 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :update
     end
   end
-
-
-
 end
