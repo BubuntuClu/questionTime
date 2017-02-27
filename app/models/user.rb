@@ -18,6 +18,10 @@ class User < ApplicationRecord
     id == message.user_id
   end
 
+  def subscribed?(question)
+    Question.find(question.id).subscribers.include?(id)
+  end
+
   def send_confirmation(params)
     self.generate_confirmation_token!
     self.update(params)

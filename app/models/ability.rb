@@ -33,5 +33,8 @@ class Ability
     can :mark_best, Answer do |answer|
       @user.author_of?(answer.question) && !answer.best
     end
+    
+    can :subscribe, Question
+    can :unsubscribe, Question
   end
 end

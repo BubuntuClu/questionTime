@@ -10,6 +10,7 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true, length: { minimum: 10 }
   
+  after_create :send_notification
 
   def set_best_answer
     ActiveRecord::Base.transaction do
@@ -17,5 +18,9 @@ class Answer < ApplicationRecord
       old_best.update!(best: false) if old_best
       self.update!(best: true)
     end
+  end
+
+  def send_notification
+    AnswerJob.perform_later(self)
   end
 end
