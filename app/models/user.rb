@@ -50,4 +50,10 @@ class User < ApplicationRecord
     user
   end
 
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user).deliver_later
+    end
+  end
+
 end
