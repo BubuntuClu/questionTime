@@ -58,8 +58,8 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :subscribe, question, user: other_user }
     it { should be_able_to :subscribe, question, user: user }
 
-    it { should be_able_to :unsubscribe, question, user: other_user }
-    it { should be_able_to :unsubscribe, question, user: user }
+    it { should be_able_to :create, Subscriber }
+    it { should be_able_to :destroy, Subscriber, user: user }
 
   end
 

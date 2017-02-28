@@ -1,9 +1,9 @@
 - if current_user
   - if current_user.subscribed?(@question)
     - if can?(:unsubscribe, @question)
-      =link_to 'Unsubscribe', unsubscribe_question_path , method: :post, remote: true, class: 'unsubscribe-link'
+      =link_to 'Unsubscribe', subscriber_path , method: :delete, remote: true, class: 'unsubscribe-link'
       br
   -else
     - if can?(:subscribe, @question)
-      =link_to 'Subscribe', subscribe_question_path , method: :post, remote: true, class: 'subscribe-link'
+      =link_to 'Subscribesadaf', url: question_subscribers_path , method: :post, remote: true, class: 'subscribe-link'
       br  

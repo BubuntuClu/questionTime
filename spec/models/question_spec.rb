@@ -5,6 +5,7 @@ describe Question do
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should belong_to(:user) }
+    it { should have_many(:subscribers) }
   end
 
   describe 'validations' do
@@ -18,21 +19,5 @@ describe Question do
     it_behaves_like 'votable'
     it_behaves_like 'attachmentable'
     it_behaves_like 'commentable'
-  end
-
-  describe 'subscribe' do
-    let (:user) { create(:user) }
-    let (:user2) { create(:user) }
-    let!(:question) { create(:question, user:user) }
-
-    it 'user subscribed' do
-      question.subscribe_user(user2)
-      expect(question.subscribers.count).to eq(2)
-    end
-
-    it 'user unsubscribed' do
-      question.unsubscribe_user(user)
-      expect(question.subscribers.count).to eq(0)
-    end
   end
 end

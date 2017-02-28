@@ -38,16 +38,6 @@ class QuestionsController < ApplicationController
     respond_with (@question.destroy) if current_user.author_of?(@question)
   end
 
-  def subscribe
-    @question.subscribe_user(current_user)
-    respond_with @question
-  end
-
-  def unsubscribe
-    @question.unsubscribe_user(current_user)
-    respond_with @question
-  end
-
   private
 
   def load_question

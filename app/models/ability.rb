@@ -22,19 +22,16 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscriber]
     can :create, Vote do |vote|
       @user.author_of?(vote.votable)
     end
     can :update, [Question, Answer], user_id: @user.id
-    can :destroy, [Question, Answer, Vote], user_id: @user.id
+    can :destroy, [Question, Answer, Vote, Subscriber], user_id: @user.id
 
     can :manage, Attachment, attachmentable: { user_id: @user.id }
     can :mark_best, Answer do |answer|
       @user.author_of?(answer.question) && !answer.best
     end
-    
-    can :subscribe, Question
-    can :unsubscribe, Question
   end
 end
