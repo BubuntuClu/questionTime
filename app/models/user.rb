@@ -18,6 +18,10 @@ class User < ApplicationRecord
     id == message.user_id
   end
 
+  def subscribed?(question)
+    question.subscribers.find_by(id: id).present?
+  end
+
   def send_confirmation(params)
     self.generate_confirmation_token!
     self.update(params)
@@ -48,6 +52,12 @@ class User < ApplicationRecord
     end
     
     user
+  end
+
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user).deliver_later
+    end
   end
 
 end

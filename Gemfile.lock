@@ -69,6 +69,23 @@ GEM
       mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
+    celluloid (0.17.3)
+      celluloid-essentials
+      celluloid-extras
+      celluloid-fsm
+      celluloid-pool
+      celluloid-supervision
+      timers (>= 4.1.1)
+    celluloid-essentials (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-extras (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-fsm (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-pool (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-supervision (0.20.6)
+      timers (>= 4.1.1)
     cocoon (1.2.9)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -79,6 +96,7 @@ GEM
       execjs
     coffee-script-source (1.11.1)
     concurrent-ruby (1.0.2)
+    connection_pool (2.2.1)
     daemons (1.2.4)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
@@ -112,7 +130,9 @@ GEM
     haml (4.0.7)
       tilt
     hashie (3.5.1)
+    hitimes (1.2.4)
     i18n (0.7.0)
+    ice_cube (0.14.0)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -198,6 +218,8 @@ GEM
     public_suffix (2.0.4)
     puma (3.6.2)
     rack (2.0.1)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0.1)
@@ -231,6 +253,7 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redis (3.3.3)
     remotipart (1.3.1)
     request_store (1.3.2)
     responders (2.3.0)
@@ -265,6 +288,15 @@ GEM
       tilt (>= 1.1, < 3)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
+    sidekiq (4.2.9)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 3.2, >= 3.2.1)
+    sidetiq (0.7.2)
+      celluloid (>= 0.17.3)
+      ice_cube (~> 0.14.0)
+      sidekiq (>= 4.1.0)
     simple_form (3.4.0)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
@@ -309,6 +341,8 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
+    timers (4.1.2)
+      hitimes
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -370,7 +404,10 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   shoulda-matchers
+  sidekiq
+  sidetiq
   simple_form
+  sinatra
   skim
   slim-rails
   spring

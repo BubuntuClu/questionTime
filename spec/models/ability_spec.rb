@@ -55,6 +55,9 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :mark_best, other_answer, user: other_user }
 
+    it { should be_able_to :create, Subscription }
+    it { should be_able_to :destroy, Subscription, user: user }
+
   end
 
   
