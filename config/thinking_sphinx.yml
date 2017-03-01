@@ -1,0 +1,5 @@
+development:
+  enable_star: true
+
+test:
+  mysql141: 9307
