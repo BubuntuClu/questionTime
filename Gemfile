@@ -51,10 +51,12 @@ gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
 # gem 'delayed_job_active_record'
-# gem 'whenever'
+gem 'whenever'
 gem 'sidekiq'
 gem 'sinatra', require: nil
 gem 'sidetiq'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
