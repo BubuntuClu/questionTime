@@ -9,9 +9,6 @@ class User < ApplicationRecord
   has_many :comments, foreign_key: :users_id
   has_many :authorizations, dependent: :destroy
 
-  has_many :subscribers, dependent: :destroy
-  has_many :questions, through: :subscribers
-
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
@@ -22,7 +19,7 @@ class User < ApplicationRecord
   end
 
   def subscribed?(question)
-    question.subscribers.find_by(user_id: id).present?
+    question.subscribers.find_by(id: id).present?
   end
 
   def send_confirmation(params)

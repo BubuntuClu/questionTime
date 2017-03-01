@@ -6,7 +6,7 @@ RSpec.describe AnswerJob, type: :job do
   let!(:not_subscribers) { create_list(:user, 2) }
 
   it 'sends notifications to all subscribers users when answer created' do
-    question.subscribers.create(user: subscribers[1])
+    question.subscriptions.create(user_id: subscribers[1].id)
     answer = create(:answer, question: question)
     subscribers.each do |subscriber|
       expect(AnswerMailer).to receive(:answer_published).with(subscriber, question, answer).and_call_original

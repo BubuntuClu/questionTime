@@ -3,7 +3,7 @@ class AnswerJob < ApplicationJob
 
   def perform(answer)
     answer.question.subscribers.find_each do |subscriber|
-      AnswerMailer.answer_published(subscriber.user, answer.question, answer).deliver_later
+      AnswerMailer.answer_published(subscriber, answer.question, answer).deliver_later
     end
   end
 end

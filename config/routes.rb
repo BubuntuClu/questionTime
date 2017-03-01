@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :subscribers , only: [:create, :destroy], shallow: true
+    resources :subscriptions , only: [:create, :destroy], shallow: true
   end
   resources :attachments, only: :destroy
   root to: "questions#index"
