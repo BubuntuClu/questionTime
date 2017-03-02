@@ -13,9 +13,10 @@ RSpec.describe SearchesController, type: :controller do
       expect(response.body).to be_empty
     end
 
-    # it 'valid params' do
-    #   expect(Searches).to receive(:request).with('','all')
-    #   get :index, params: { search_type:'all', search: 'all' }
-    # end
+    it 'valid params' do
+      expect(controller).to receive(:index)
+      get :index, params: { search_type:'all', search: 'all' }
+      expect(response).to be_successful
+    end
   end
 end

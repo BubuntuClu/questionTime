@@ -10,62 +10,46 @@ feature 'User', %q{
   given!(:answer) { create(:answer, user: user) }
   given!(:comment) { create(:comment, commentable: question) }
 
-    # before do
-    #   index
-    #   visit questions_path
-    # end
+  before do
+    index
+    visit questions_path
+  end
 
-    before(:all) do
-      ThinkingSphinx::Test.init
-      ThinkingSphinx::Test.start
-      ThinkingSphinx::Test.index
-      sleep(0.25)
-      
-    end
+  scenario 'try to find question', js:true do
+    make_search('question', question.title)
+    expect(page).to have_content question.title
+  end
 
-    scenario 'try to find question' do
-      visit questions_path
-      select 'question', from: 'search_type'
-      fill_in 'Search', with: question.title
+  scenario 'try to find answer', js:true do
+    make_search('answer', answer.body)
+    expect(page).to have_content answer.body
+  end
 
-      click_on 'Search'
-      expect(page).to have_content question.title
-    end
+  scenario 'try to find comment', js:true do
+    make_search('comment', comment.body)
+    expect(page).to have_content comment.body
+  end
 
-    scenario 'try to find answer' do
-      visit questions_path
-      select 'answer', from: 'search_type'
-      fill_in 'Search', with: answer.body
-      
-      click_on 'Search'
-      expect(page).to have_content answer.body
-    end
+  scenario 'try to find user', js:true do
+    make_search('user', user.email)
+    expect(page).to have_content user.email
+  end
 
-    scenario 'try to find comment' do
-      visit questions_path
-      select 'comment', from: 'search_type'
-      fill_in 'Search', with: comment.body
-      click_on 'Search'
-      expect(page).to have_content comment.body
-    end
+  scenario 'try to find all', js:true do
+    make_search('all', comment.body)
+    expect(page).to have_content comment.body
+  end
 
-    scenario 'try to find user' do
-      select 'user', from: 'search_type'
-      fill_in 'Search', with: user.email
-      
-      click_on 'Search'
-      expect(page).to have_content user.email
-    end
+  scenario 'no result', js:true do
+    make_search('all', 'asdasdasd')
+    expect(page).to have_content 'No results'
+  end
 
-    scenario 'no result' do
-      select 'all', from: 'search_type'
-      fill_in 'Search', with: 'asdasdasd'
-      
-      click_on 'Search'
-      expect(page).to have_content 'No results'
-    end
+  private 
 
-    after(:all) do
-      ThinkingSphinx::Test.stop
-    end
+  def make_search(type, text)
+    select type, from: 'search_type'
+    fill_in 'Search', with: text
+    click_on 'Search'
+  end
 end
