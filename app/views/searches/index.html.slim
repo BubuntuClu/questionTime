@@ -1,0 +1,19 @@
+- if !@results.any?
+  p No results
+- @results.each do |result|
+  = result.class.name
+  br
+  - if result[:title].present?
+    p title:
+    = result[:title]
+    br
+  - if result[:body].present?
+    p body:
+    = result[:body]
+    br
+  - if result[:email].present?
+    p email:
+    = result[:email]
+  br
+  br
+= paginate @results

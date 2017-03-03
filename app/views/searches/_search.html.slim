@@ -1,0 +1,5 @@
+  =form_tag(searches_path, method: :get) do
+    = select_tag :search_type, options_for_select(Search::TYPES)
+    = label_tag :search
+    = text_field :search, nil, type: 'search', id: 'search'
+    = submit_tag 'Search'
