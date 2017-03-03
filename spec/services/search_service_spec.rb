@@ -2,14 +2,47 @@ require 'rails_helper'
 
 RSpec.describe Search do
 
-  describe 'do search' do
-    it 'runs with valid' do
-      expect(Search).to receive(:run).with('question', 'question', 0)
-      Search.run('question', 'question', 0)
-    end
+  it 'check TYPES array' do
+    expect(Search::TYPES).to eq %w(question answer comment user all)
+  end
+  
+  it 'calls search in all' do
+    request = "qwe@qwe.qwe"
+    escaped_request = ThinkingSphinx::Query.escape(request)
+    expect(ThinkingSphinx::Query).to receive(:escape).with(request).and_call_original
+    expect(ThinkingSphinx).to receive(:search).with(escaped_request).and_call_original
+    Search.run('all', request, nil)
+  end
 
-    it 'runs with invalid' do
-      expect(Search.run('question', 'question', 0)).to eq []
-    end
+  it 'calls search in question' do
+    request = "question"
+    escaped_request = ThinkingSphinx::Query.escape(request)
+    expect(ThinkingSphinx::Query).to receive(:escape).with(request).and_call_original
+    expect(Question).to receive(:search).with(escaped_request).and_call_original
+    Search.run('question', request, nil)
+  end
+
+  it 'calls search in answer' do
+    request = "answer"
+    escaped_request = ThinkingSphinx::Query.escape(request)
+    expect(ThinkingSphinx::Query).to receive(:escape).with(request).and_call_original
+    expect(Answer).to receive(:search).with(escaped_request).and_call_original
+    Search.run('answer', request, nil)
+  end
+
+  it 'calls search in comment' do
+    request = "comment"
+    escaped_request = ThinkingSphinx::Query.escape(request)
+    expect(ThinkingSphinx::Query).to receive(:escape).with(request).and_call_original
+    expect(Comment).to receive(:search).with(escaped_request).and_call_original
+    Search.run('comment', request, nil)
+  end
+
+  it 'calls search in user' do
+    request = "user@user.ru"
+    escaped_request = ThinkingSphinx::Query.escape(request)
+    expect(ThinkingSphinx::Query).to receive(:escape).with(request).and_call_original
+    expect(User).to receive(:search).with(escaped_request).and_call_original
+    Search.run('user', request, nil)
   end
 end
