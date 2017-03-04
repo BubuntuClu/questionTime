@@ -58,6 +58,8 @@ gem 'sidetiq'
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'kaminari'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -77,6 +79,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'pry'
   gem 'letter_opener'
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
