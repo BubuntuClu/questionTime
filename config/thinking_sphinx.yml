@@ -1,3 +1,7 @@
+production:
+  enable_star: true
+  mysql141: 9312
+
 development:
   enable_star: true
 
