@@ -1,5 +1,6 @@
-- vote_button = (obj.voted_for(current_user) == 0 ) ? "" : "hidden"
-- unvote_button = (obj.voted_for(current_user) == 0 ) ? "hidden" : ""
+-if user_signed_in?
+  - vote_button = (obj.voted_for(current_user) == 0 ) ? "" : "hidden"
+  - unvote_button = (obj.voted_for(current_user) == 0 ) ? "hidden" : ""
 
 .votes
   div id="#{obj.class.name.underscore}_#{obj.id}"

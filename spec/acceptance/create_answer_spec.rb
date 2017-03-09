@@ -11,7 +11,7 @@ feature 'Create answer', %q{
   scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
     visit question_path(question)
-    title = question.title
+    title = question.title    
     give_an_answer
     expect(current_path).to eq question_path(question)
     
@@ -20,7 +20,7 @@ feature 'Create answer', %q{
     end
   end
 
-  scenario 'Authenticated user create answer with invalid data', js: true do
+  scenario 'Authenticated user creates answer with invalid data', js: true do
     sign_in(user)
     visit question_path(question)
     title = question.title
@@ -31,8 +31,7 @@ feature 'Create answer', %q{
 
   scenario 'Non-authenticated user try to creates qiestion' do
     visit question_path(question)
-    give_an_answer
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_button 'Give an answer'
   end
 
   context "multiple sessions" do
@@ -47,8 +46,10 @@ feature 'Create answer', %q{
       end
 
       Capybara.using_session('user') do
-        fill_in 'Body', with: 'Text testx answer'
-        click_on 'Add file'
+        within '.new_answer' do
+          fill_in 'Body', with: 'Text testx answer'
+          click_on 'Add file'
+        end
         within page.all('.nested-fields')[0] do 
           attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
         end
@@ -75,12 +76,16 @@ feature 'Create answer', %q{
   private
 
   def give_an_answer
-    fill_in 'Body', with: 'Test answer text'
-    click_on 'Give an answer'
+    within '.new_answer' do
+      fill_in 'Body', with: 'Test answer text'
+      click_on 'Give an answer'
+    end
   end
 
   def give_an_invalid_answer
-    fill_in 'Body', with: '123'
-    click_on 'Give an answer'
+    within '.new_answer' do
+      fill_in 'Body', with: '123'
+      click_on 'Give an answer'
+    end
   end
 end

@@ -1,0 +1,17 @@
+/*
+  =require twitter-bootstrap-static/bootstrap
+
+  Use Font Awesome icons (default)
+  To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
+  =require twitter-bootstrap-static/fontawesome
+  */
+
+  .question_elem{
+    border: 1px solid gray;
+    border-radius: 15px;
+  }
+
+
+  .answer_elem{
+    border: 1px solid #f0ad4e;
+  }

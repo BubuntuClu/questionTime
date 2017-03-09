@@ -25,6 +25,7 @@ feature 'Create comment', %q{
     visit question_path(question)
     title = question.title
     give_an_answer
+    sleep(1)
     visit question_path(question)
     give_an_answer_comment
     expect(current_path).to eq question_path(question)
@@ -79,9 +80,11 @@ feature 'Create comment', %q{
   end
 
   def give_an_answer_comment
-    within '.answers' do
-      fill_in 'Body', with: 'This is comment for answer'
-      click_on 'Comment answer'
+    within '.answer_elem' do
+      # within '#new_comment' do
+        fill_in 'Body', with: 'This is comment for answer'
+        click_on 'Comment answer'
+      # end
     end
   end
 end

@@ -1,33 +1,32 @@
-div.answer_body
-  = answer.body
-  p Attchaments:
-  ul
-    - answer.attachments.each do |a|
-      = render 'attachments/attachment', a: a
-    - if user_signed_in?
+.answer_elem
+  div.answer_body
+    = answer.body
+    p Attchaments:
+    ul
+      - answer.attachments.each do |a|
+        = render 'attachments/attachment', a: a
       =render 'votes/votes', obj: answer
-  - if answer.best
-    p IT IS THE BEST ANSWER!
-  -else
-    - if can?(:mark_best, answer)
-      =link_to 'Mark as best', mark_best_answer_path(answer), method: :post, class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
-    br
-  - if can?(:update, answer)
-    br
-    =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-    br
-  - if can?(:destroy, answer)  
-    =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }, remote: true
-    br
-
-
-      p
-        = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
-          = f.label :body, "Edit answer"
-          = f.text_area :body
-          = f.submit 'Save'
-    br
-  div id="answer_#{answer.id}_comments"
-    = render answer.comments
-    -if can?(:create, Comment)
-      = render '/comments/comment_form', obj: answer
+    - if answer.best
+      p IT IS THE BEST ANSWER!
+    -else
+      - if can?(:mark_best, answer)
+        =link_to 'Mark as best', mark_best_answer_path(answer), method: :post, class: 'mark-best-answer-link', data: { answer_id: answer.id }, remote: true
+      br
+    - if can?(:update, answer)
+      br
+      =link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+      br
+    - if can?(:destroy, answer)  
+      =link_to 'Delete answer', answer, method: :delete, data: { confirm: ' Are you sure?' }, remote: true
+      br
+        p
+          = form_for [@qustion, answer], remote: true, html: { id:"edit-answer-#{answer.id}"} do |f|
+            = f.label :body, "Edit answer"
+            = f.text_area :body
+            = f.submit 'Save'
+      br
+    div id="answer_#{answer.id}_comments"
+      = render answer.comments
+      -if can?(:create, Comment)
+        = render '/comments/comment_form', obj: answer
+br

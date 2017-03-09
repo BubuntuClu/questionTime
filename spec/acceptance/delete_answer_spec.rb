@@ -11,8 +11,7 @@ feature 'Delete answer', %q{
   scenario 'Author delete answer', js: true do
     sign_in(user)
     answer = create(:answer, user: user, question: question)
-    visit questions_path(question)
-    click_on 'View question'
+    visit question_path(question)
     click_on 'Delete answer'
     expect(page).to_not have_content answer.body
   end
@@ -21,15 +20,13 @@ feature 'Delete answer', %q{
     user2 = create(:user)
     sign_in(user2)
     answer = create(:answer, user: user, question: question)
-    visit questions_path(question)
-    click_on 'View question'
+    visit question_path(question)
     expect(page).to_not have_content 'Delete answer'
   end
 
   scenario 'Non-authenticated user trying to delete not his answer' do
     create(:answer, user: user, question: question)
-    visit questions_path(question)
-    click_on 'View question'
+    visit question_path(question)
     expect(page).to_not have_content 'Delete answer'
   end
 

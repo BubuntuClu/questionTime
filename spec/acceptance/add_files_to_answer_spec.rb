@@ -15,9 +15,11 @@ feature 'add files to answers', %q{
   end
 
   scenario 'user adds file when asks answer', js: true do
-    fill_in 'Body', with: 'Text testx answer'
-    attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
-    click_on 'Give an answer'
+    within '.new_answer' do
+      fill_in 'Body', with: 'Text testx answer'
+      attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+      click_on 'Give an answer'
+    end
 
     within '.answers' do
       expect(page).to have_content 'Text testx answer'
@@ -26,10 +28,12 @@ feature 'add files to answers', %q{
   end
 
   scenario 'user adds a few files when asks answer', js: true do
-    fill_in 'Body', with: 'Text testx answer'
-    click_on 'Add file'
-    within page.all('.nested-fields')[0] do 
-      attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+    within '.new_answer' do
+      fill_in 'Body', with: 'Text testx answer'
+      click_on 'Add file'
+      within page.all('.nested-fields')[0] do 
+        attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+      end
     end
 
     within page.all('.nested-fields')[1] do 

@@ -16,12 +16,12 @@ RSpec.describe Answer, type: :model do
     let!(:question) { create(:question) }
     let(:answer) { create(:answer, question: question) }
 
-    it 'set asnwer as a best' do
+    it 'set answer as a best' do
       answer.set_best_answer
       expect(answer.reload).to be_best
     end
 
-    it 'set another asnwer as a best' do
+    it 'set another answer as a best' do
       answer.set_best_answer
       answer2 = create(:answer, question: question)
       answer2.set_best_answer

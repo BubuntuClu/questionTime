@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubscribersController, type: :controller do
+RSpec.describe SubscriptionsController, type: :controller do
   before do 
     @user = create(:user) 
     @question = create(:question, user: @user)
