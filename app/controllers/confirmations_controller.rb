@@ -5,9 +5,10 @@ class ConfirmationsController < Devise::ConfirmationsController
     if user
       user.update!(account_confirmed: true) 
       flash[:notice] = 'Your email was confirmed. Now u can sign in.'
+      super
     else
       flash[:notice] = 'OOups.Smthng went wrong!'
+      redirect_to root_path
     end
-    redirect_to root_path
   end
 end
