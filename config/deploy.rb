@@ -8,6 +8,9 @@ set :repo_url, "git@github.com:BubuntuClu/questionTime.git"
 set :deploy_to, "/home/deployer/questionTime"
 set :deploy_user, 'deployer'
 
+
+set :sidekiq_queue, [:default, :mailers]
+
 # Default value for :linked_files is []
 append :linked_files, "config/database.yml", ".env"
 
