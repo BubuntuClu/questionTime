@@ -3,7 +3,7 @@
   - unvote_button = (obj.voted_for(current_user) == 0 ) ? "hidden" : ""
 
 .votes
-  div id="#{obj.class.name.underscore}_#{obj.id}"
+  div id="vote_#{obj.class.name.underscore}_#{obj.id}"
     p = "Rating: #{obj.rating}"
   -if user_signed_in? && !current_user.author_of?(obj)
     div 
