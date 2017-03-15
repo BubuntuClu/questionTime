@@ -63,6 +63,7 @@ gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'unicorn'
+gem 'redis-rails'
 
 
 group :development, :test do
