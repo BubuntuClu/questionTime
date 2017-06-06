@@ -41,7 +41,6 @@ RSpec.describe Search do
   it 'return empty array', type: :sphinx do
     question = create(:question)
     index
-    # p Question.search question.title
     expect(Search.run('question', 'afasf',nil)).to eq []
   end
 end

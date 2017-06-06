@@ -25,7 +25,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.create(questions_params.merge(user_id: current_user.id))
-    # @question.subscribe_user(current_user)
     respond_with @question
   end
 
