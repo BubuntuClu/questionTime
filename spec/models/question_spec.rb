@@ -5,7 +5,6 @@ describe Question do
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should belong_to(:user) }
-    # it { should have_many(:subscribers) }
     it { should have_many(:subscriptions).dependent(:destroy) }
   end
 

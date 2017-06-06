@@ -26,7 +26,6 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
-    # authorize! :mark_best, @answer.question
     @question = @answer.question
     @answer.set_best_answer
     respond_with @question

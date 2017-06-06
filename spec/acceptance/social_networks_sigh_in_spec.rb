@@ -26,7 +26,6 @@ feature 'Social networks sign in', %q{
   end
 
   context 'twitter' do
-    # auth with email, but in my case its nil, but it can be not nil
     scenario 'with email' do
       OmniAuth.config.add_mock(:twitter, { uid: '36362', info: { email: 'tw@t.er'} })
       visit new_user_session_path

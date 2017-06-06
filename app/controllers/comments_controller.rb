@@ -14,8 +14,6 @@ class CommentsController < ApplicationController
     else
       render json: @comment.errors.full_messages, status: :unprocessable_entity
     end
-    # Если этот метод написать вместо кода выше, то он пытается отрендерить CommentsController#show вместо просто отправки json
-    # respond_with(@comment = @obj.comments.create(comment_params.merge(users_id: current_user.id)))
   end
 
   private
